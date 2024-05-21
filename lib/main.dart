@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'pages/bottom_navigation.dart';
+import 'package:qr_flutter/qr_flutter.dart';
+import 'dart:math';
 
 void main() {
   runApp(const MyApp());
@@ -25,7 +27,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Home Page'),
+        title: Text('TheHuntingGame - Start Screen'),
       ),
       body: Center(
         child: Column(
@@ -42,12 +44,7 @@ class HomePage extends StatelessWidget {
             ),
             SizedBox(height: 20),
             ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => BottomNavigation()),
-                );
-              },
+              onPressed: ()  => _showCreateGameDialog(context),
               child: Text('Create Game'),
             ),
           ],
@@ -56,3 +53,63 @@ class HomePage extends StatelessWidget {
     );
   }
 }
+
+ void _showCreateGameDialog(BuildContext context) async {
+    final randomPin = (Random().nextInt(9000) + 1000).toString();
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Game Created'),
+          content: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text('Game PIN: $randomPin'),
+              SizedBox(
+                height: 200,
+                width: 200,
+                child: QrImageView(
+                  data: randomPin,
+                  version: 3,
+                  gapless: false,
+                  constrainErrorBounds: false,
+                  errorStateBuilder: (cxt, err) {
+                    return Container(
+                      child: Center(
+                        child: Text(
+                          "Uh oh! Something went wrong...",
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text('Cancel'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+
+            TextButton(
+              child: Text('Proceed'),
+              onPressed: () {
+                Navigator.of(context).pop();
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => BottomNavigation(),
+                    ),
+                  );
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
