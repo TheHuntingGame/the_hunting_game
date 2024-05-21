@@ -8,6 +8,7 @@ class ShopPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Shop Page'),
+        automaticallyImplyLeading: false,
       ),
     );
   }

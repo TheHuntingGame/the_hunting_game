@@ -8,6 +8,7 @@ class SettingsPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Settings Page'),
+        automaticallyImplyLeading: false,
       ),
     );
   }
