@@ -17,7 +17,6 @@ class _MainPageState extends State<BottomNavigation> {
 
   @override
   Widget build(BuildContext context) {
-    final ThemeData theme = Theme.of(context);
     return Scaffold(
       appBar: AppBar(
         title: const Text('TheHuntingGame'),
