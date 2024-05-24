@@ -43,27 +43,25 @@ class _MainPageState extends State<BottomNavigation> {
       ),
       body: _pages[_selectedIndex],
       bottomNavigationBar: Material(
-  elevation: 5.0,
-  child: BottomNavigationBar(
-    currentIndex: _selectedIndex,
-    onTap: _navigateBottomBar,
-    unselectedItemColor: Colors.grey, // Color for unselected items
-    selectedItemColor: Colors.blue, // Color for selected item
-    showSelectedLabels: true, // Always show labels for selected items
-    showUnselectedLabels: true, // Always show labels for unselected items
-    type: BottomNavigationBarType.fixed,
-    items: const [
-      //main
-      BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-      //shop
-      BottomNavigationBarItem(icon: Icon(Icons.shopping_cart), label: 'Shop'),
-      //chat
-      BottomNavigationBarItem(icon: Icon(Icons.chat), label: 'Chat'),
-      //settings
-      BottomNavigationBarItem(icon: Icon(Icons.settings), label: 'Settings'),
-    ],
-  ),
-),
+        elevation: 5.0,
+        child: BottomNavigationBar(
+          currentIndex: _selectedIndex,
+          onTap: _navigateBottomBar,
+          showSelectedLabels: true, // Always show labels for selected items
+          showUnselectedLabels: true, // Always show labels for unselected items
+          type: BottomNavigationBarType.fixed,
+          items: const [
+            //main
+            BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+            //shop
+            BottomNavigationBarItem(icon: Icon(Icons.shopping_cart), label: 'Shop'),
+            //chat
+            BottomNavigationBarItem(icon: Icon(Icons.chat), label: 'Chat'),
+            //settings
+            BottomNavigationBarItem(icon: Icon(Icons.settings), label: 'Settings'),
+          ],
+        ),
+      ),
     );
   }
 }
