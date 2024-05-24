@@ -13,55 +13,57 @@ class BottomNavigation extends StatefulWidget {
 
 class _MainPageState extends State<BottomNavigation> {
 
-  //Things for switch screens_BEGIN
-  int _selectedIndex = 0;
-
-  void _navigateBottomBar(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
-
-  final List _pages = [
-    //main
-    MainPage(),
-    //shop
-    ShopPage(),
-    //chat
-    ChatPage(),
-    //settings
-    SettingsPage(),
-  ];
-  //Things for switch screens_END
+  int currentPageIndex = 0;
 
   @override
   Widget build(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
     return Scaffold(
       appBar: AppBar(
         title: const Text('TheHuntingGame'),
         automaticallyImplyLeading: false,
       ),
-      body: _pages[_selectedIndex],
-      bottomNavigationBar: Material(
-        elevation: 5.0,
-        child: BottomNavigationBar(
-          currentIndex: _selectedIndex,
-          onTap: _navigateBottomBar,
-          showSelectedLabels: true, // Always show labels for selected items
-          showUnselectedLabels: true, // Always show labels for unselected items
-          type: BottomNavigationBarType.fixed,
-          items: const [
-            //main
-            BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-            //shop
-            BottomNavigationBarItem(icon: Icon(Icons.shopping_cart), label: 'Shop'),
-            //chat
-            BottomNavigationBarItem(icon: Icon(Icons.chat), label: 'Chat'),
-            //settings
-            BottomNavigationBarItem(icon: Icon(Icons.settings), label: 'Settings'),
-          ],
-        ),
+      bottomNavigationBar: NavigationBar(
+        onDestinationSelected: (int index) {
+          setState(() {
+            currentPageIndex = index;
+          });
+        },
+        selectedIndex: currentPageIndex,
+        destinations: const <Widget>[
+          NavigationDestination(
+            selectedIcon: Icon(Icons.home),
+            icon: Icon(Icons.home_outlined),
+            label: 'Home',
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.shopping_cart),
+            label: 'Shop',
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.messenger_sharp),
+            label: 'Chat',
+            ),
+          NavigationDestination(
+            icon: Icon(Icons.settings),
+            label: 'Settings',
+          ),
+        ],
       ),
+      body: <Widget>[
+        /// Main page
+        MainPage(),
+
+        //Shop page
+        ShopPage(),
+
+        //chat page
+        ChatPage(),
+
+        //Settings page
+        SettingsPage(),
+      ][currentPageIndex],
     );
   }
 }
+
