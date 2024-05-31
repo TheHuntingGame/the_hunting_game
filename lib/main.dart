@@ -52,19 +52,37 @@ class HomePage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => BottomNavigation()),
-                );
-              },
-              child: Text('Join Game'),
+            SizedBox(
+              height: 50,
+              width: 150,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => BottomNavigation()),
+                  );
+                },
+                child: Text('Join Game'),
+              ),
             ),
             SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () => _showCreateGameDialog(context),
-              child: Text('Create Game'),
+            SizedBox(
+              height: 50,
+              width: 150,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+                onPressed: () => _showCreateGameDialog(context),
+                child: Text('Create Game'),
+              ),
             ),
           ],
         ),
