@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:the_hunting_game/pages/chat_page.dart';
-import 'package:the_hunting_game/pages/settings_page.dart';
-import 'package:the_hunting_game/pages/shop_page.dart';
-import 'package:the_hunting_game/pages/main_page.dart';
+import 'package:the_hunting_game/in_game/chat_page.dart';
+import 'package:the_hunting_game/in_game/settings_page.dart';
+import 'package:the_hunting_game/in_game/shop_page.dart';
+import 'package:the_hunting_game/in_game/main_page.dart';
 
 class BottomNavigation extends StatefulWidget {
   const BottomNavigation({super.key});

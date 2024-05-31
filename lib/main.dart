@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:the_hunting_game/pages/game_setup.dart';
-import 'package:the_hunting_game/pages/settings_page.dart';
-import 'pages/bottom_navigation.dart';
+import 'package:the_hunting_game/game_preparation/game_setup.dart';
+import 'package:the_hunting_game/in_game/settings_page.dart';
+import 'in_game/bottom_navigation.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'dart:math';
 

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:the_hunting_game/pages/bottom_navigation.dart';
+import 'package:the_hunting_game/in_game/bottom_navigation.dart';
 
 class GameSetup extends StatelessWidget {
   const GameSetup({super.key});
