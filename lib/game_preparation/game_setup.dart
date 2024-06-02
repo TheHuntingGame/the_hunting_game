@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:the_hunting_game/components/button_nav.dart';
 import 'package:the_hunting_game/in_game/bottom_navigation.dart';
 
 class GameSetup extends StatelessWidget {
@@ -21,16 +22,10 @@ class GameSetup extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text('Listing all players in this round, ability to drag into teams when appropiate game mode is selected'),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => GameModeSelect()),
-                );
-              },
-              child: Text('Players Complete!'),
-            ),
+            Text(
+                'Listing all players in this round, ability to drag into teams when appropiate game mode is selected'),
+            CustomButtonNav(
+                text: 'Game Mode Select', destination: GameModeSelect()),
           ],
         ),
       ),
@@ -52,17 +47,10 @@ class GameModeSelect extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text('Select the game modes: 4connect, tag game, caputre the flag, hide and seek, travel game, racing, etc...'),
+            Text(
+                'Select the game modes: 4connect, tag game, caputre the flag, hide and seek, travel game, racing, etc...'),
             Text('Custom games and import games through AI or yourself'),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => FinalAdjustments()),
-                );
-              },
-              child: Text('Overview'),
-            ),
+            CustomButtonNav(text: 'Overview', destination: FinalAdjustments()),
           ],
         ),
       ),
@@ -84,22 +72,13 @@ class FinalAdjustments extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text('See all settings: players, teams, game mode, specific/special settings(like chat settings), etc...,'),
+            Text(
+                'See all settings: players, teams, game mode, specific/special settings(like chat settings), etc...,'),
             Text('Ability to check last time'),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => BottomNavigation()),
-                );
-              },
-              child: Text('Start Game'),
-            ),
+            CustomButtonNav(text: 'Start Game', destination: BottomNavigation()),
           ],
         ),
       ),
     );
   }
 }
-
-

@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:the_hunting_game/authentication/login_page.dart';
+import 'package:the_hunting_game/components/button_func.dart';
+import 'package:the_hunting_game/components/button_nav.dart';
+import 'package:the_hunting_game/game_preparation/game_lobby_room.dart';
 import 'package:the_hunting_game/game_preparation/game_setup.dart';
 import 'package:the_hunting_game/in_game/settings_page.dart';
-import 'in_game/bottom_navigation.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'dart:math';
 
@@ -41,7 +44,8 @@ class HomePage extends StatelessWidget {
               onPressed: () {
                 Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => SettingsPage()),
+                //-- TODO -- : implement login system
+                MaterialPageRoute(builder: (context) => LoginPage()),
                 );
               },
             ),
@@ -55,34 +59,16 @@ class HomePage extends StatelessWidget {
             SizedBox(
               height: 50,
               width: 150,
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                  ),
+              child: CustomButtonNav(
+                text: 'Join Game', 
+                destination: GameLobbyRoomJoin()
                 ),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => BottomNavigation()),
-                  );
-                },
-                child: Text('Join Game'),
-              ),
             ),
             SizedBox(height: 20),
             SizedBox(
               height: 50,
               width: 150,
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                  ),
-                ),
-                onPressed: () => _showCreateGameDialog(context),
-                child: Text('Create Game'),
-              ),
+              child: CustomButtonFunc(label: 'Create Game', onPressed: () => CreateGamePopup(context)),
             ),
           ],
         ),
@@ -91,7 +77,7 @@ class HomePage extends StatelessWidget {
   }
 }
 
-void _showCreateGameDialog(BuildContext context) async {
+void CreateGamePopup(BuildContext context) async {
   final randomPin = (Random().nextInt(9000) + 1000).toString();
 
   showDialog(
@@ -125,7 +111,7 @@ void _showCreateGameDialog(BuildContext context) async {
             ),
           ],
         ),
-        actions: <Widget>[
+        actions:[
           TextButton(
             child: Text('Cancel'),
             onPressed: () {
