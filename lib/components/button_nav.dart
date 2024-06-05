@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:the_hunting_game/functions/NoAnimationBetweenPages.dart';
 
 //This is a custom buttom for switching between pages
 
@@ -14,7 +15,7 @@ class CustomButtonNav extends StatelessWidget {
       onPressed: () {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => destination),
+          createNoAnimationRoute(destination),
         );
       },
       child: Text(text),
