@@ -9,7 +9,7 @@ class GameSetup extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Column(
+        title: const Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text('Game Setup'),
@@ -22,7 +22,7 @@ class GameSetup extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
+            const Text(
                 'Listing all players in this round, ability to drag into teams when appropiate game mode is selected'),
             CustomButtonNav(
                 text: 'Game Mode Select', destination: GameModeSelect()),
@@ -40,16 +40,16 @@ class GameModeSelect extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Game Mode Select'),
+        title: const Text('Game Mode Select'),
         automaticallyImplyLeading: false,
       ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
+            const Text(
                 'Select the game modes: 4connect, tag game, caputre the flag, hide and seek, travel game, racing, etc...'),
-            Text('Custom games and import games through AI or yourself'),
+            const Text('Custom games and import games through AI or yourself'),
             CustomButtonNav(text: 'Overview', destination: FinalAdjustments()),
           ],
         ),
@@ -65,16 +65,16 @@ class FinalAdjustments extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Final Adjustments'),
+        title: const Text('Final Adjustments'),
         automaticallyImplyLeading: false,
       ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
+            const Text(
                 'See all settings: players, teams, game mode, specific/special settings(like chat settings), etc...,'),
-            Text('Ability to check last time'),
+            const Text('Ability to check last time'),
             CustomButtonNav(text: 'Start Game', destination: BottomNavigation()),
           ],
         ),
