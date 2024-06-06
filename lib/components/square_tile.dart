@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+//square tiles for e.g. the login and register page
 class SquareTile extends StatelessWidget {
   final String imagePath;
   const SquareTile({
@@ -16,7 +16,7 @@ class SquareTile extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
         color: Colors.grey[200],
       ),
-      child: Image.asset(imagePath, height: 40,),
+      child: Image.asset(imagePath, height: 40,width: 40),
     );
   }
 }

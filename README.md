@@ -1,7 +1,8 @@
 # The Hunting Game
 
 An Interactive Live Map Chasing Game using Flutter and Dart. <br>
-Completly Free. Open Source. Forever. <br>
+Completly free and open source. <br>
+Target platforms are ios, android. <br>
 The project is inspired by [JetLag: The Game](https://m.youtube.com/@jetlagthegame) <br>
 <br>
 *Sidenote*: This project is still under development. <br>
