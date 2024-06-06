@@ -141,6 +141,7 @@ class RegisterPage extends StatelessWidget {
   }
 }
 
+//function for signing user up
 void SignUserUp() {
   print('Signing up user...');
 }
