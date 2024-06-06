@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:the_hunting_game/authentication/register_page.dart';
+import 'package:the_hunting_game/authentication/login_page.dart';
 import 'package:the_hunting_game/components/button_func.dart';
 import 'package:the_hunting_game/components/square_tile.dart';
 import 'package:the_hunting_game/components/textfield.dart';
 import 'package:the_hunting_game/main.dart';
 
-class LoginPage extends StatelessWidget {
-  LoginPage({super.key});
+class RegisterPage extends StatelessWidget {
+  RegisterPage({super.key});
 
   //text editing controllers
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
+  final passwordRepeatController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -54,24 +55,17 @@ class LoginPage extends StatelessWidget {
               ),
 
               const SizedBox(height: 10),
-              //forgot password?
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Text('Forgot Password?',
-                      style: TextStyle(
-                        color: Colors.grey[600],
-                      ),
-                    ),
-                  ],
-                ),
+
+              //passsword repeat textfield
+              CustomTextField(
+                controller: passwordRepeatController,
+                hintText: 'Repeat Password',
+                obscureText: true,
               ),
 
               const SizedBox(height: 25),
               //sign in button
-              CustomButtonFunc(label: 'Sign in', onPressed: ()=> SignUserIn()),
+              CustomButtonFunc(label: 'Sign Up', onPressed: ()=> SignUserUp()),
 
               const SizedBox(height: 25),
               //or continue with
@@ -111,11 +105,12 @@ class LoginPage extends StatelessWidget {
               ],),
 
               const SizedBox(height: 25),
-              //not a member? register now
+
+              //Already a member? Logging in
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text('Not a member?',
+                  Text('Already a member? ',
                     style: TextStyle(
                       color: Colors.grey[700],
                     ),
@@ -126,10 +121,10 @@ class LoginPage extends StatelessWidget {
                     onTap: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => RegisterPage()),
+                        MaterialPageRoute(builder: (context) => LoginPage()),
                       );
                     },
-                    child: const Text('Register now',
+                    child: const Text('Log in',
                       style: TextStyle(
                         color: Colors.blue,
                         fontWeight: FontWeight.bold,
@@ -146,6 +141,7 @@ class LoginPage extends StatelessWidget {
   }
 }
 
-void SignUserIn() {
-  print('Signing in user...');
+//function for signing user up
+void SignUserUp() {
+  print('Signing up user...');
 }
