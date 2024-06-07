@@ -49,10 +49,12 @@
     <key>UIBackgroundModes</key>
     <string>location</string>
     <!-- Permission options for the `location` group -->
-    <key>NSLocationUsageDescription</key>
-    <string>Older devices need location.</string>
-    <key>NSLocationAlwaysUsageDescription</key>
-    <string>Can I have location always?</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+    <string>This app needs access to location.</string>
+    <key>NSLocationWhenInUseUsageDescription</key>
+    <string>This app needs access to location.</string>
+    <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+    <string>This app needs access to location.</string>
     <!-- Permission options for the `appTrackingTransparency` -->
     <key>NSUserTrackingUsageDescription</key>
     <string>appTrackingTransparency</string>
