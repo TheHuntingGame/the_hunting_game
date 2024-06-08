@@ -1,3 +1,6 @@
+//The following code is taken from https://github.com/josxha/flutter_map_plugins
+//You can find the flutter_map_compass plugin on pub.dev
+//(modified code below)
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
@@ -7,21 +10,6 @@ import 'package:the_hunting_game/components/compass/utils.dart';
 /// A compass for flutter_map that shows the map rotation and allows to reset
 /// the rotation back to 0.
 class MapCompass extends StatefulWidget {
-  /// Use this constructor if you want to customize your compass.
-  ///
-  /// Use [MapCompass.cupertino] to use the default.
-  const MapCompass({
-    required this.icon,
-    super.key,
-    this.rotationOffset = 0,
-    this.rotationDuration = const Duration(seconds: 1),
-    this.animationCurve = Curves.fastOutSlowIn,
-    this.onPressed,
-    this.hideIfRotatedNorth = false,
-    this.alignment = Alignment.topRight,
-    this.padding = const EdgeInsets.all(10),
-  });
-
   /// The default map compass based on the cupertino compass icon
   const MapCompass.cupertino({
     super.key,

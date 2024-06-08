@@ -12,7 +12,7 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-  LatLng? _currentPosition; // Start with null
+  LatLng? _currentPosition;
   late final MapController _mapController;
   bool _isMapInitialized = false;
   StreamSubscription<Position>? _positionStreamSubscription;
@@ -28,7 +28,6 @@ class _MainPageState extends State<MainPage> {
     final status = await Permission.location.request();
     if (status.isGranted) {
       print('Location Permission granted');
-      // Now you can safely get the current location
       if (_isMapInitialized && mounted) {
         _getCurrentLocation();
         _startLocationUpdates();
@@ -41,7 +40,6 @@ class _MainPageState extends State<MainPage> {
   }
 
   void _getCurrentLocation() async {
-    // Use async/await for clarity
     try {
       Position position = await Geolocator.getCurrentPosition(
           desiredAccuracy: LocationAccuracy.high);
@@ -54,7 +52,6 @@ class _MainPageState extends State<MainPage> {
     } catch (e) {
       if (mounted) {
         print("Error getting location: $e");
-        // Handle location errors appropriately
       }
     }
   }
@@ -62,7 +59,7 @@ class _MainPageState extends State<MainPage> {
   void _startLocationUpdates() {
     const locationSettings = LocationSettings(
       accuracy: LocationAccuracy.high,
-      distanceFilter: 10, // Minimum distance (measured in meters) a device must move horizontally before an update event is generated
+      distanceFilter: 10, // minimum distance to trigger updt
     );
 
     _positionStreamSubscription =
@@ -77,7 +74,6 @@ class _MainPageState extends State<MainPage> {
       onError: (e) {
         if (mounted) {
           print("Error in location stream: $e");
-          // Handle location stream errors appropriately
         }
       },
     );
@@ -96,14 +92,14 @@ class _MainPageState extends State<MainPage> {
         mapController: _mapController,
         options: MapOptions(
               interactionOptions: const InteractionOptions(
-      enableMultiFingerGestureRace: true,
-      flags: InteractiveFlag.doubleTapDragZoom |
-          InteractiveFlag.doubleTapZoom |
-          InteractiveFlag.drag |
-          InteractiveFlag.flingAnimation |
-          InteractiveFlag.pinchZoom |
-          InteractiveFlag.scrollWheelZoom|
-          InteractiveFlag.rotate,
+                enableMultiFingerGestureRace: true,
+                flags: InteractiveFlag.doubleTapDragZoom |
+                       InteractiveFlag.doubleTapZoom |
+                       InteractiveFlag.drag |
+                       InteractiveFlag.flingAnimation |
+                       InteractiveFlag.pinchZoom |
+                       InteractiveFlag.scrollWheelZoom|
+                       InteractiveFlag.rotate,
               ),
           initialZoom: 8,
           onMapReady: () {
@@ -111,7 +107,6 @@ class _MainPageState extends State<MainPage> {
               setState(() {
                 _isMapInitialized = true;
               });
-              // Now you can safely get the current location and start updates
               _getCurrentLocation();
               _startLocationUpdates();
             }
