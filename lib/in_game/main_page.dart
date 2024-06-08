@@ -3,6 +3,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
+import 'dart:async';
 
 class MainPage extends StatefulWidget {
   @override
@@ -13,6 +14,7 @@ class _MainPageState extends State<MainPage> {
   LatLng? _currentPosition; // Start with null
   late final MapController _mapController;
   bool _isMapInitialized = false;
+  StreamSubscription<Position>? _positionStreamSubscription;
 
   @override
   void initState() {
@@ -26,8 +28,9 @@ class _MainPageState extends State<MainPage> {
     if (status.isGranted) {
       print('Location Permission granted');
       // Now you can safely get the current location
-      if (_isMapInitialized) {
+      if (_isMapInitialized && mounted) {
         _getCurrentLocation();
+        _startLocationUpdates();
       }
     } else if (status.isDenied) {
       print('Location Permission denied');
@@ -41,14 +44,49 @@ class _MainPageState extends State<MainPage> {
     try {
       Position position = await Geolocator.getCurrentPosition(
           desiredAccuracy: LocationAccuracy.high);
-      setState(() {
-        _currentPosition = LatLng(position.latitude, position.longitude);
-        _mapController.move(_currentPosition!, 11.0);
-      });
+      if (mounted) {
+        setState(() {
+          _currentPosition = LatLng(position.latitude, position.longitude);
+          _mapController.move(_currentPosition!, 14);
+        });
+      }
     } catch (e) {
-      print("Error getting location: $e");
-      // Handle location errors appropriately
+      if (mounted) {
+        print("Error getting location: $e");
+        // Handle location errors appropriately
+      }
     }
+  }
+
+  void _startLocationUpdates() {
+    const locationSettings = LocationSettings(
+      accuracy: LocationAccuracy.high,
+      distanceFilter: 10, // Minimum distance (measured in meters) a device must move horizontally before an update event is generated
+    );
+
+    _positionStreamSubscription =
+        Geolocator.getPositionStream(locationSettings: locationSettings).listen(
+      (Position position) {
+        if (mounted) {
+          setState(() {
+            _currentPosition = LatLng(position.latitude, position.longitude);
+            _mapController.move(_currentPosition!, 14);
+          });
+        }
+      },
+      onError: (e) {
+        if (mounted) {
+          print("Error in location stream: $e");
+          // Handle location stream errors appropriately
+        }
+      },
+    );
+  }
+
+  @override
+  void dispose() {
+    _positionStreamSubscription?.cancel();
+    super.dispose();
   }
 
   @override
@@ -57,13 +95,25 @@ class _MainPageState extends State<MainPage> {
       body: FlutterMap(
         mapController: _mapController,
         options: MapOptions(
+              interactionOptions: const InteractionOptions(
+      enableMultiFingerGestureRace: true,
+      flags: InteractiveFlag.doubleTapDragZoom |
+          InteractiveFlag.doubleTapZoom |
+          InteractiveFlag.drag |
+          InteractiveFlag.flingAnimation |
+          InteractiveFlag.pinchZoom |
+          InteractiveFlag.scrollWheelZoom,
+              ),
           initialZoom: 8,
           onMapReady: () {
-            setState(() {
-              _isMapInitialized = true;
-            });
-            // Now you can safely get the current location
-            _getCurrentLocation();
+            if (mounted) {
+              setState(() {
+                _isMapInitialized = true;
+              });
+              // Now you can safely get the current location and start updates
+              _getCurrentLocation();
+              _startLocationUpdates();
+            }
           },
         ),
         children: [
@@ -95,3 +145,4 @@ class _MainPageState extends State<MainPage> {
     );
   }
 }
+
