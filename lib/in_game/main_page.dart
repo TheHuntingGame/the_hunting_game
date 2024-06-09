@@ -15,6 +15,7 @@ class _MainPageState extends State<MainPage> {
   LatLng? _currentPosition;
   late final MapController _mapController;
   bool _isMapInitialized = false;
+  bool _isCenteredOnUser = true;
   StreamSubscription<Position>? _positionStreamSubscription;
 
   @override
@@ -59,7 +60,7 @@ class _MainPageState extends State<MainPage> {
   void _startLocationUpdates() {
     const locationSettings = LocationSettings(
       accuracy: LocationAccuracy.high,
-      distanceFilter: 10, // minimum distance to trigger updt
+      distanceFilter: 10, // minimum distance to trigger update
     );
 
     _positionStreamSubscription =
@@ -68,6 +69,15 @@ class _MainPageState extends State<MainPage> {
         if (mounted) {
           setState(() {
             _currentPosition = LatLng(position.latitude, position.longitude);
+            if (_isCenteredOnUser) {
+              _mapController.move(_currentPosition!,
+                  16); // Keep the map centered if the icon is blue
+            } else {
+              // Map has been moved by the user, update the icon color
+              setState(() {
+                _isCenteredOnUser = false;
+              });
+            }
           });
         }
       },
@@ -88,60 +98,90 @@ class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: FlutterMap(
-        mapController: _mapController,
-        options: MapOptions(
+      body: Stack(
+        children: [
+          FlutterMap(
+            mapController: _mapController,
+            options: MapOptions(
               interactionOptions: const InteractionOptions(
                 enableMultiFingerGestureRace: true,
                 flags: InteractiveFlag.doubleTapDragZoom |
-                       InteractiveFlag.doubleTapZoom |
-                       InteractiveFlag.drag |
-                       InteractiveFlag.flingAnimation |
-                       InteractiveFlag.pinchZoom |
-                       InteractiveFlag.scrollWheelZoom|
-                       InteractiveFlag.rotate,
+                    InteractiveFlag.doubleTapZoom |
+                    InteractiveFlag.drag |
+                    InteractiveFlag.flingAnimation |
+                    InteractiveFlag.pinchZoom |
+                    InteractiveFlag.scrollWheelZoom |
+                    InteractiveFlag.rotate,
               ),
-          initialZoom: 8,
-          onMapReady: () {
-            if (mounted) {
-              setState(() {
-                _isMapInitialized = true;
-              });
-              _getCurrentLocation();
-              _startLocationUpdates();
-            }
-          },
-        ),
-        children: [
-          TileLayer(
-            urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-            userAgentPackageName: 'com.example.app',
-          ),
-          const MapCompass.cupertino(
-            hideIfRotatedNorth: false,
-          ),
-          if (_currentPosition != null)
-            CircleLayer(
-              circles: [
-                CircleMarker(
-                  point: _currentPosition!,
-                  radius: 10,
-                  color: Colors.blue.withOpacity(0.5),
-                  borderStrokeWidth: 2,
-                  borderColor: Colors.blue,
-                ),
-              ],
+              initialZoom: 8,
+              onMapReady: () {
+                if (mounted) {
+                  setState(() {
+                    _isMapInitialized = true;
+                  });
+                  _getCurrentLocation();
+                  _startLocationUpdates();
+                }
+              },
+              onPositionChanged: (MapCamera position, bool hasGesture) {
+                if (hasGesture) {
+                  setState(() {
+                    _isCenteredOnUser = false;
+                });
+                }
+              },
             ),
-          RichAttributionWidget(
-            attributions: [
-              TextSourceAttribution(
-                'OpenStreetMap contributors',
-              )
+            children: [
+              TileLayer(
+                urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                userAgentPackageName: 'com.example.app',
+              ),
+              const MapCompass.cupertino(
+                hideIfRotatedNorth: false,
+              ),
+              if (_currentPosition != null)
+                CircleLayer(
+                  circles: [
+                    CircleMarker(
+                      point: _currentPosition!,
+                      radius: 10,
+                      color: Colors.blue.withOpacity(0.5),
+                      borderStrokeWidth: 2,
+                      borderColor: Colors.blue,
+                    ),
+                  ],
+                ),
+              const RichAttributionWidget(
+                attributions: [
+                  TextSourceAttribution(
+                    'OpenStreetMap contributors',
+                  )
+                ],
+              ),
             ],
+          ),
+          Positioned(
+            bottom: 92,
+            right: 32,
+            child: IconButton(
+              icon: Icon(
+                Icons.my_location_outlined, // Use the Google Fonts icon
+                color: _isCenteredOnUser ? Colors.blue : Colors.grey,
+                size: 64, // Adjust the size as needed
+              ),
+              onPressed: () {
+                if (_currentPosition != null) {
+                  setState(() {
+                    _isCenteredOnUser = true;
+                  });
+                  _mapController.move(
+                      _currentPosition!, 16); // Zoom level 16 for closer view
+                }
+              },
+            ),
           ),
         ],
       ),
     );
   }
 }
-
