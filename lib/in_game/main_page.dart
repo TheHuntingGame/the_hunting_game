@@ -4,6 +4,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:the_hunting_game/components/compass/compass.dart';
+import 'package:the_hunting_game/components/user_location.dart';
 import 'dart:async';
 
 class MainPage extends StatefulWidget {
@@ -140,14 +141,13 @@ class _MainPageState extends State<MainPage> {
                 hideIfRotatedNorth: false,
               ),
               if (_currentPosition != null)
-                CircleLayer(
-                  circles: [
-                    CircleMarker(
+                MarkerLayer(
+                  markers: [
+                    Marker(
+                      width: 24,
+                      height: 24,
                       point: _currentPosition!,
-                      radius: 10,
-                      color: Colors.blue.withOpacity(0.5),
-                      borderStrokeWidth: 2,
-                      borderColor: Colors.blue,
+                      child: const CustomLocationMarker(),
                     ),
                   ],
                 ),
@@ -165,9 +165,9 @@ class _MainPageState extends State<MainPage> {
             right: 32,
             child: IconButton(
               icon: Icon(
-                Icons.my_location_outlined, // Use the Google Fonts icon
+                Icons.my_location_outlined, 
                 color: _isCenteredOnUser ? Colors.blue : Colors.grey,
-                size: 64, // Adjust the size as needed
+                size: 64, 
               ),
               onPressed: () {
                 if (_currentPosition != null) {
