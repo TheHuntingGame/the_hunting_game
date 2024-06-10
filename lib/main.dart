@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:the_hunting_game/authentication/login_page.dart';
 import 'package:the_hunting_game/components/button_func.dart';
 import 'package:the_hunting_game/components/button_nav.dart';
@@ -21,7 +22,14 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
+        brightness: Brightness.light,
+        colorSchemeSeed: const Color.fromARGB(255, 0, 200, 255),
         useMaterial3: true, // Enable Material 3
+      ),
+      darkTheme: ThemeData(
+        brightness: Brightness.dark,
+        useMaterial3: true,
+        colorSchemeSeed: const Color(0xFF05053A),
       ),
       home: HomePage(),
     );

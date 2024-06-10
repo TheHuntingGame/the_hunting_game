@@ -61,7 +61,7 @@ class _MainPageState extends State<MainPage> {
   void _startLocationUpdates() {
     const locationSettings = LocationSettings(
       accuracy: LocationAccuracy.high,
-      distanceFilter: 10, // minimum distance to trigger update
+      distanceFilter: 5, // minimum distance to trigger update
     );
 
     _positionStreamSubscription =
