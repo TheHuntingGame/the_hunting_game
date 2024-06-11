@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:the_hunting_game/authentication/register_page.dart';
 import 'package:the_hunting_game/components/button_func.dart';
 import 'package:the_hunting_game/components/square_tile.dart';
-import 'package:the_hunting_game/components/textfield.dart';
+import 'package:the_hunting_game/components/text_field.dart';
+import 'package:the_hunting_game/screens/main_page.dart';
 import 'package:the_hunting_game/main.dart';
 
 class LoginPage extends StatelessWidget {
@@ -136,9 +137,26 @@ class LoginPage extends StatelessWidget {
                       ),
                     ),
                   ),
+
+                  const SizedBox(width: 20),
+
+                  
                 ],
               ),
-              //not a member? register now
+              GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => HomePage()),
+                      );
+                    },
+                    child: const Text('Go Back',
+                      style: TextStyle(
+                        color: Colors.blue,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
           ]),
         ),
       ),  

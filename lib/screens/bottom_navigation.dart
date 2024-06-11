@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:the_hunting_game/in_game/chat_page.dart';
-import 'package:the_hunting_game/in_game/settings_page.dart';
-import 'package:the_hunting_game/in_game/shop_page.dart';
-import 'package:the_hunting_game/in_game/main_page.dart';
+import 'package:the_hunting_game/screens/chat_page.dart';
+import 'package:the_hunting_game/screens/settings_page.dart';
+import 'package:the_hunting_game/screens/shop_page.dart';
+import 'package:the_hunting_game/screens/main_page.dart';
 
 class BottomNavigation extends StatefulWidget {
   const BottomNavigation({super.key});
@@ -36,15 +36,18 @@ class _MainPageState extends State<BottomNavigation> {
             label: 'Home',
           ),
           NavigationDestination(
-            icon: Icon(Icons.shopping_cart),
+            selectedIcon: Icon(Icons.shopping_cart),
+            icon: Icon(Icons.shopping_cart_outlined),
             label: 'Shop',
           ),
           NavigationDestination(
-            icon: Icon(Icons.messenger_sharp),
+            selectedIcon: Icon(Icons.messenger),
+            icon: Icon(Icons.messenger_outline_outlined),
             label: 'Chat',
             ),
           NavigationDestination(
-            icon: Icon(Icons.settings),
+            selectedIcon: Icon(Icons.settings),
+            icon: Icon(Icons.settings_outlined),
             label: 'Settings',
           ),
         ],

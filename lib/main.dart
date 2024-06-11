@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:the_hunting_game/authentication/login_page.dart';
 import 'package:the_hunting_game/components/button_func.dart';
 import 'package:the_hunting_game/components/button_nav.dart';
-import 'package:the_hunting_game/game_preparation/game_lobby_room.dart';
-import 'package:the_hunting_game/game_preparation/game_setup.dart';
-import 'package:the_hunting_game/in_game/settings_page.dart';
+import 'package:the_hunting_game/screens/lobby.dart';
+import 'package:the_hunting_game/screens/setup.dart';
+import 'package:the_hunting_game/screens/settings_page.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'dart:math';
 
@@ -21,7 +22,14 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
+        brightness: Brightness.light,
+        colorSchemeSeed: const Color.fromARGB(255, 0, 200, 255),
         useMaterial3: true, // Enable Material 3
+      ),
+      darkTheme: ThemeData(
+        brightness: Brightness.dark,
+        useMaterial3: true,
+        colorSchemeSeed: const Color(0xFF05053A),
       ),
       home: HomePage(),
     );
@@ -36,6 +44,7 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('The Hunting Game'),
+        automaticallyImplyLeading: false,
         actions: [
           IconTheme(
             data: IconThemeData(size: 45), // Adjust the size as desired
