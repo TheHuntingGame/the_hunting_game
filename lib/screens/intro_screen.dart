@@ -12,10 +12,14 @@ class IntroScreen extends StatelessWidget {
           title: const Text('Welcome to The Hunting Game - First Time Intro Screen'),
           automaticallyImplyLeading: false,
         ),
-        body: const CustomButtonNav(
-          text: 'continue/skip', 
-          destination: HomePage(),
+        body:
+          const Center(
+          child: CustomButtonNav(
+            text: 'continue/skip', 
+            destination: HomePage(),
+            ),
           ),
+      
     );
   }
 }

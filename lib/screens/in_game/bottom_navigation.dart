@@ -18,10 +18,6 @@ class _MainPageState extends State<BottomNavigation> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('TheHuntingGame'),
-        automaticallyImplyLeading: false,
-      ),
       bottomNavigationBar: NavigationBar(
         onDestinationSelected: (int index) {
           setState(() {

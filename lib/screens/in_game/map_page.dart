@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_map_cancellable_tile_provider/flutter_map_cancellable_tile_provider.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:flutter_map/flutter_map.dart';
@@ -92,6 +93,13 @@ class _MapPageState extends State<MapPage> {
     );
   }
 
+  String _getTileLayerUrl() {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    return isDarkMode
+        ? 'https://basemaps.cartocdn.com/dark_all/{z}/{x}/{y}@2x.png'
+        : 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+  }
+
   @override
   void dispose() {
     _positionStreamSubscription?.cancel();
@@ -117,6 +125,8 @@ class _MapPageState extends State<MapPage> {
                     InteractiveFlag.rotate,
               ),
               initialZoom: 8,
+              maxZoom: 19,
+              minZoom: 5.0,
               onMapReady: () {
                 if (mounted) {
                   setState(() {
@@ -130,15 +140,19 @@ class _MapPageState extends State<MapPage> {
                 if (hasGesture) {
                   setState(() {
                     _isCenteredOnUser = false;
-                });
+                  });
                 }
               },
             ),
             children: [
               TileLayer(
-                urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                tileProvider: CancellableNetworkTileProvider(),
+                urlTemplate: _getTileLayerUrl(),
+                tileSize:256,
+                keepBuffer:2,
                 userAgentPackageName: 'com.example.app',
               ),
+              
               const MapCompass.cupertino(
                 hideIfRotatedNorth: false,
               ),
@@ -167,9 +181,9 @@ class _MapPageState extends State<MapPage> {
             right: 32,
             child: IconButton(
               icon: Icon(
-                Icons.my_location_outlined, 
+                Icons.my_location_outlined,
                 color: _isCenteredOnUser ? Colors.blue : Colors.grey,
-                size: 64, 
+                size: 64,
               ),
               onPressed: () {
                 if (_currentPosition != null) {
