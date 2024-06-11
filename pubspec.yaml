@@ -33,7 +33,7 @@ dependencies:
   qr_flutter: any
   geolocator: any
   permission_handler: any
-  flutter_map: 7.0.0
+  flutter_map: 7.0.1
   latlong2: any
   meta: ^1.12.0
   shared_preferences: 2.2.3
