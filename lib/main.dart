@@ -44,6 +44,7 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('The Hunting Game'),
+        automaticallyImplyLeading: false,
         actions: [
           IconTheme(
             data: IconThemeData(size: 45), // Adjust the size as desired

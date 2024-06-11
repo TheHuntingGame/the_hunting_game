@@ -131,6 +131,22 @@ class RegisterPage extends StatelessWidget {
                       ),
                     ),
                   ),
+
+                  const SizedBox(width: 10),
+
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => HomePage()),
+                      );
+                    },
+                    child: const Text('Go Back',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
                 ],
               ),
               //not a member? register now
