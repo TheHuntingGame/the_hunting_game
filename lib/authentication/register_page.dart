@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:the_hunting_game/authentication/login_page.dart';
 import 'package:the_hunting_game/components/button_func.dart';
 import 'package:the_hunting_game/components/square_tile.dart';
-import 'package:the_hunting_game/components/textfield.dart';
+import 'package:the_hunting_game/components/text_field.dart';
 import 'package:the_hunting_game/main.dart';
 
 class RegisterPage extends StatelessWidget {

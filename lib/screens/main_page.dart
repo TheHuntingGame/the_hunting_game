@@ -3,8 +3,8 @@ import 'package:geolocator/geolocator.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
-import 'package:the_hunting_game/components/compass/compass.dart';
-import 'package:the_hunting_game/components/user_location.dart';
+import 'package:the_hunting_game/compass/compass.dart';
+import 'package:the_hunting_game/components/user_marker.dart';
 import 'dart:async';
 
 class MainPage extends StatefulWidget {
@@ -147,7 +147,7 @@ class _MainPageState extends State<MainPage> {
                       width: 24,
                       height: 24,
                       point: _currentPosition!,
-                      child: const CustomLocationMarker(),
+                      child: const UserLocationMarker(),
                     ),
                   ],
                 ),

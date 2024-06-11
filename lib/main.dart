@@ -3,9 +3,9 @@ import 'package:flutter/widgets.dart';
 import 'package:the_hunting_game/authentication/login_page.dart';
 import 'package:the_hunting_game/components/button_func.dart';
 import 'package:the_hunting_game/components/button_nav.dart';
-import 'package:the_hunting_game/game_preparation/game_lobby_room.dart';
-import 'package:the_hunting_game/game_preparation/game_setup.dart';
-import 'package:the_hunting_game/in_game/settings_page.dart';
+import 'package:the_hunting_game/screens/lobby.dart';
+import 'package:the_hunting_game/screens/setup.dart';
+import 'package:the_hunting_game/screens/settings_page.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'dart:math';
 

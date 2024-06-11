@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:the_hunting_game/functions/NoAnimationBetweenPages.dart';
+import 'package:the_hunting_game/utils/no_animation_between_pages.dart';
 
 //This is a custom buttom for switching between pages
 

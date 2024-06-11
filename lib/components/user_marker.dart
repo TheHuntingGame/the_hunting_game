@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class CustomLocationMarker extends StatelessWidget {
-  const CustomLocationMarker({super.key});
+class UserLocationMarker extends StatelessWidget {
+  const UserLocationMarker({super.key});
 
   @override
   Widget build(BuildContext context) {

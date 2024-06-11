@@ -4,7 +4,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
-import 'package:the_hunting_game/components/compass/utils.dart';
+import 'package:the_hunting_game/compass/utils.dart';
 
 
 /// A compass for flutter_map that shows the map rotation and allows to reset
