@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:the_hunting_game/components/button_nav.dart';
-import 'package:the_hunting_game/screens/bottom_navigation.dart';
+import 'package:the_hunting_game/screens/in_game/bottom_navigation.dart';
 
 //This is the game lobby room join page
 class GameLobbyRoomJoin extends StatelessWidget {
@@ -13,7 +13,7 @@ class GameLobbyRoomJoin extends StatelessWidget {
           title: const Text('Waiting for players to connect...'),
           automaticallyImplyLeading: false,
         ),
-        body: CustomButtonNav(
+        body: const CustomButtonNav(
           text: 'Assume players already connected', 
           destination: BottomNavigation()
           ),

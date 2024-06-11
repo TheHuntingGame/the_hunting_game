@@ -71,11 +71,15 @@ class CreditsPage extends StatelessWidget {
           ),
           ListTile(
             title: Text('Project Manager'),
-            subtitle: Text('never heard'),
+            subtitle: Text('never heard of...'),
           ),
           ListTile(
             title: Text('Special Thanks'),
             subtitle: Text('Flutter Community'),
+          ),
+          ListTile(
+            title: Text('LICENSE'),
+            subtitle: Text('MIT License'),
           ),
         ],
       ),

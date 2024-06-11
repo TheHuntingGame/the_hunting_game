@@ -3,8 +3,9 @@ import 'package:the_hunting_game/authentication/register_page.dart';
 import 'package:the_hunting_game/components/button_func.dart';
 import 'package:the_hunting_game/components/square_tile.dart';
 import 'package:the_hunting_game/components/text_field.dart';
-import 'package:the_hunting_game/screens/main_page.dart';
+import 'package:the_hunting_game/screens/in_game/map_page.dart';
 import 'package:the_hunting_game/main.dart';
+import 'package:the_hunting_game/screens/main_page.dart';
 
 class LoginPage extends StatelessWidget {
   LoginPage({super.key});

@@ -7,7 +7,7 @@ class CustomButtonNav extends StatelessWidget {
   final String text;
   final Widget destination;
 
-  CustomButtonNav({required this.text, required this.destination});
+  const CustomButtonNav({super.key, required this.text, required this.destination});
 
   @override
   Widget build(BuildContext context) {
