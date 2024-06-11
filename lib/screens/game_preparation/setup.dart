@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:the_hunting_game/components/button_nav.dart';
-import 'package:the_hunting_game/screens/bottom_navigation.dart';
+import 'package:the_hunting_game/screens/in_game/bottom_navigation.dart';
 
 class GameSetup extends StatelessWidget {
   const GameSetup({super.key});
@@ -18,11 +18,11 @@ class GameSetup extends StatelessWidget {
         ),
         automaticallyImplyLeading: false,
       ),
-      body: Center(
+      body: const Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text(
+            Text(
                 'Listing all players in this round, ability to drag into teams when appropiate game mode is selected'),
             CustomButtonNav(
                 text: 'Game Mode Select', destination: GameModeSelect()),
@@ -43,13 +43,13 @@ class GameModeSelect extends StatelessWidget {
         title: const Text('Game Mode Select'),
         automaticallyImplyLeading: false,
       ),
-      body: Center(
+      body: const Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text(
+            Text(
                 'Select the game modes: 4connect, tag game, caputre the flag, hide and seek, travel game, racing, etc...'),
-            const Text('Custom games and import games through AI or yourself'),
+            Text('Custom games and import games through AI or yourself'),
             CustomButtonNav(text: 'Overview', destination: FinalAdjustments()),
           ],
         ),
@@ -68,13 +68,13 @@ class FinalAdjustments extends StatelessWidget {
         title: const Text('Final Adjustments'),
         automaticallyImplyLeading: false,
       ),
-      body: Center(
+      body: const Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text(
+            Text(
                 'See all settings: players, teams, game mode, specific/special settings(like chat settings), etc...,'),
-            const Text('Ability to check last time'),
+            Text('Ability to check last time'),
             CustomButtonNav(text: 'Start Game', destination: BottomNavigation()),
           ],
         ),
