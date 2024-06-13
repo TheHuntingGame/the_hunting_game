@@ -97,7 +97,7 @@ class _MapPageState extends State<MapPage> {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     return isDarkMode
         ? 'https://basemaps.cartocdn.com/dark_all/{z}/{x}/{y}@2x.png'
-        : 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+        : 'https://tile.openstreetmap.org/{z}/{x}/{y}.png';
   }
 
   @override
