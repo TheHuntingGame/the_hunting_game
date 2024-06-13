@@ -4,32 +4,61 @@ import '../../components/transport_option.dart';
 class ShopPage extends StatelessWidget {
   final List<TransportOption> transportOptions = [
     TransportOption(
-      name: 'Train',
-      icon: Icons.train,
-      description: 'Fast and reliable train service.',
-      price: 10.0,
-      validDuration: '1 Day',
+      name: 'Bus',
+      icon: Icons.directions_bus_outlined,
+      description: '5min of riding bus system',
+      price: 5.0,
+      validDuration: '5 min',
     ),
     TransportOption(
-      name: 'Bus',
-      icon: Icons.directions_bus,
-      description: 'Comfortable city buses.',
-      price: 5.0,
-      validDuration: '1 Day',
+      name: 'Tram',
+      icon: Icons.tram_outlined,
+      description: '10min of riding tram system',
+      price: 10.0,
+      validDuration: '10 min',
+    ),
+    TransportOption(
+      name: 'Subway',
+      icon: Icons.subway_outlined,
+      description: '5min of riding subway system',
+      price: 10.0,
+      validDuration: '5min',
+    ),
+    TransportOption(
+      name: 'Suburban Train',
+      icon: Icons.directions_subway_outlined,
+      description: '10min of riding suburban train system',
+      price: 10.0,
+      validDuration: '10 min',
+    ),
+    TransportOption(
+      name: 'Train',
+      icon: Icons.train_outlined,
+      description: '20min of riding train system',
+      price: 10.0,
+      validDuration: '20 min',
+    ),
+    TransportOption(
+      name: 'E-Scooter/Bike',
+      icon: Icons.bike_scooter_outlined,
+      description: '10min of riding e-scooter/bike',
+      price: 10.0,
+      validDuration: '10 min',
     ),
     TransportOption(
       name: 'Taxi',
-      icon: Icons.local_taxi,
-      description: 'Convenient taxi service.',
+      icon: Icons.local_taxi_outlined,
+      description: '10min of riding taxi system',
       price: 20.0,
-      validDuration: '1 Hour',
+      validDuration: '10 min',
     ),
     TransportOption(
-    name: 'Subway', 
-    icon: Icons.subway_outlined, 
-    description: '5min of riding subway system', 
-    price: 10.0, 
-    validDuration: '5min')
+      name: 'Ferry',
+      icon: Icons.directions_boat_outlined,
+      description: '30min on a ferry',
+      price: 10.0,
+      validDuration: '30min',
+    )
   ];
 
   @override
@@ -43,15 +72,15 @@ class ShopPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Padding(
-              padding: const EdgeInsets.all(10.0),
+            const Padding(
+              padding: EdgeInsets.all(10.0),
               child: Text(
                 'Public Transports',
                 style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               ),
             ),
-            Container(
-              height: 100,
+            SizedBox(
+              height: 130,
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,
                 padding: const EdgeInsets.symmetric(horizontal: 10.0),
@@ -63,34 +92,29 @@ class ShopPage extends StatelessWidget {
                       _showTransportDetails(context, transport);
                     },
                     child: Container(
-                      width: 100,
-                      margin: EdgeInsets.symmetric(horizontal: 5.0),
+                      width: 130,
+                      margin: const EdgeInsets.symmetric(horizontal: 5.0),
                       decoration: BoxDecoration(
                         color: Colors.blueAccent,
                         borderRadius: BorderRadius.circular(20),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black26,
-                            blurRadius: 10,
-                            offset: Offset(0, 5),
-                          ),
-                        ],
                       ),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Icon(
                             transport.icon,
                             size: 50,
                             color: Colors.white,
                           ),
-                          SizedBox(height: 10),
-                          Text(
-                            transport.name,
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
+                          const SizedBox(height: 10),Center(
+                            child: Text(
+                              transport.name,
+                              textAlign: TextAlign.center,
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
                         ],
@@ -100,16 +124,16 @@ class ShopPage extends StatelessWidget {
                 },
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(10.0),
+            const Padding(
+              padding: EdgeInsets.all(10.0),
               child: Text(
                 'Challenges',
                 style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               ),
             ),
             // Add your Challenge widgets here
-            Padding(
-              padding: const EdgeInsets.all(10.0),
+            const Padding(
+              padding: EdgeInsets.all(10.0),
               child: Text(
                 'Curses',
                 style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),

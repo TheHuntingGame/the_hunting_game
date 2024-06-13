@@ -153,8 +153,10 @@ class _MapPageState extends State<MapPage> {
                 userAgentPackageName: 'com.example.app',
               ),
               
-              const MapCompass.cupertino(
-                hideIfRotatedNorth: false,
+              const SafeArea(
+                child: MapCompass.cupertino(
+                  hideIfRotatedNorth: false,
+                ),
               ),
               if (_currentPosition != null)
                 MarkerLayer(
