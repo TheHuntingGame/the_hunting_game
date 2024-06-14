@@ -17,13 +17,14 @@ class RegisterPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: SafeArea(
-        child: Center(
+        child: SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const SizedBox(height: 50),
-              
+
               //logo
               const Icon(Icons.lock, size: 100),
 
@@ -46,7 +47,7 @@ class RegisterPage extends StatelessWidget {
                 obscureText: false,
               ),
 
-              const SizedBox(height:10),
+              const SizedBox(height: 10),
 
               //password textfield
               CustomTextField(
@@ -57,7 +58,7 @@ class RegisterPage extends StatelessWidget {
 
               const SizedBox(height: 10),
 
-              //passsword repeat textfield
+              //password repeat textfield
               CustomTextField(
                 controller: passwordRepeatController,
                 hintText: 'Repeat Password',
@@ -65,12 +66,13 @@ class RegisterPage extends StatelessWidget {
               ),
 
               const SizedBox(height: 25),
-              //sign in button
-              CustomButtonFunc(label: 'Sign Up', onPressed: ()=> SignUserUp()),
+              //sign up button
+              CustomButtonFunc(label: 'Sign Up', onPressed: () => signUserUp()),
 
               const SizedBox(height: 25),
               //or continue with
-              Padding(padding: const EdgeInsets.symmetric(horizontal: 25.0),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 25.0),
                 child: Row(
                   children: [
                     Expanded(
@@ -81,7 +83,9 @@ class RegisterPage extends StatelessWidget {
                     ),
                     const Padding(
                       padding: EdgeInsets.symmetric(horizontal: 10.0),
-                      child: Text('or continue with', ),
+                      child: Text(
+                        'or continue with',
+                      ),
                     ),
                     Expanded(
                       child: Divider(
@@ -94,7 +98,7 @@ class RegisterPage extends StatelessWidget {
               ),
 
               const SizedBox(height: 25),
-              //google + apple sign in button
+              //google + apple sign in buttons
               const Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -103,7 +107,8 @@ class RegisterPage extends StatelessWidget {
                   SizedBox(width: 25),
                   //apple button
                   SquareTile(imagePath: 'lib/images/apple_logo.png'),
-              ],),
+                ],
+              ),
 
               const SizedBox(height: 25),
 
@@ -111,13 +116,13 @@ class RegisterPage extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text('Already a member? ',
+                  Text(
+                    'Already a member? ',
                     style: TextStyle(
                       color: Colors.grey[700],
                     ),
                   ),
                   const SizedBox(width: 4),
-
                   GestureDetector(
                     onTap: () {
                       Navigator.push(
@@ -125,40 +130,39 @@ class RegisterPage extends StatelessWidget {
                         MaterialPageRoute(builder: (context) => LoginPage()),
                       );
                     },
-                    child: const Text('Log in',
+                    child: const Text(
+                      'Log in',
                       style: TextStyle(
                         color: Colors.blue,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                   ),
-
-                  const SizedBox(width: 10),
-
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => HomePage()),
-                      );
-                    },
-                    child: const Text('Go Back',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
                 ],
               ),
-              //not a member? register now
-          ]),
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const HomePage()),
+                  );
+                },
+                child: const Text(
+                  'Go Back',
+                  style: TextStyle(
+                    color: Colors.blue,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
-      ),  
+      ),
     );
   }
 }
 
-//function for signing user up
-void SignUserUp() {
-  print('Signing up user...');
+void signUserUp(){
+
 }
