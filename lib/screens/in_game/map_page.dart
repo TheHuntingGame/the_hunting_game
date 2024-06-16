@@ -29,6 +29,8 @@ class _MapPageState extends State<MapPage> {
     _requestPermission();
   }
 
+  //request location permission, if map is initialized and mounted, then get current location and start location updates
+  //if map is not initialized, then print "Location Permission denied or permanently denied"
   void _requestPermission() async {
     final status = await Permission.location.request();
     if (status.isGranted) {
@@ -37,17 +39,15 @@ class _MapPageState extends State<MapPage> {
         _getCurrentLocation();
         _startLocationUpdates();
       }
-    } else if (status.isDenied) {
-      print('Location Permission denied');
-    } else if (status.isPermanentlyDenied) {
-      print('Location Permission permanently denied');
+    } else {
+      print('Location Permission ${status.isDenied ? 'denied' : 'permanently denied'}');
     }
   }
 
+  //get current location using geolocator and move map to current location, else print error
   void _getCurrentLocation() async {
     try {
-      Position position = await Geolocator.getCurrentPosition(
-          desiredAccuracy: LocationAccuracy.high);
+      Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
       if (mounted) {
         setState(() {
           _currentPosition = LatLng(position.latitude, position.longitude);
@@ -61,45 +61,34 @@ class _MapPageState extends State<MapPage> {
     }
   }
 
+  //start location updates using geolocator and move map to current location, else print error
+  //opening position stream subscription, set new position to current position
   void _startLocationUpdates() {
-    const locationSettings = LocationSettings(
-      accuracy: LocationAccuracy.high,
-      distanceFilter: 5, // minimum distance to trigger update
-    );
-
-    _positionStreamSubscription =
-        Geolocator.getPositionStream(locationSettings: locationSettings).listen(
+    _positionStreamSubscription = Geolocator.getPositionStream(
+      locationSettings: const LocationSettings(accuracy: LocationAccuracy.high, distanceFilter: 5),
+    ).listen(
       (Position position) {
         if (mounted) {
           setState(() {
             _currentPosition = LatLng(position.latitude, position.longitude);
             if (_isCenteredOnUser) {
-              _mapController.move(_currentPosition!,
-                  16); // Keep the map centered if the icon is blue
-            } else {
-              // Map has been moved by the user, update the icon color
-              setState(() {
-                _isCenteredOnUser = false;
-              });
+              _mapController.move(_currentPosition!, 16);
             }
           });
         }
       },
       onError: (e) {
-        if (mounted) {
-          print("Error in location stream: $e");
-        }
+        if (mounted) print("Error in location stream: $e");
       },
     );
   }
 
-  String _getTileLayerUrl() {
-    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
-    return isDarkMode
-        ? 'https://basemaps.cartocdn.com/dark_all/{z}/{x}/{y}@2x.png'
-        : 'https://tile.openstreetmap.org/{z}/{x}/{y}.png';
-  }
+  //get tile layer url based on brightness
+  String _getTileLayerUrl() => Theme.of(context).brightness == Brightness.dark
+      ? 'https://basemaps.cartocdn.com/dark_all/{z}/{x}/{y}@2x.png'
+      : 'https://tile.openstreetmap.org/{z}/{x}/{y}.png';
 
+  //stop location updates
   @override
   void dispose() {
     _positionStreamSubscription?.cancel();
@@ -116,65 +105,37 @@ class _MapPageState extends State<MapPage> {
             options: MapOptions(
               interactionOptions: const InteractionOptions(
                 enableMultiFingerGestureRace: true,
-                flags: InteractiveFlag.doubleTapDragZoom |
-                    InteractiveFlag.doubleTapZoom |
-                    InteractiveFlag.drag |
-                    InteractiveFlag.flingAnimation |
-                    InteractiveFlag.pinchZoom |
-                    InteractiveFlag.scrollWheelZoom |
-                    InteractiveFlag.rotate,
+                flags: InteractiveFlag.all,
               ),
               initialZoom: 8,
               maxZoom: 19,
               minZoom: 5.0,
               onMapReady: () {
                 if (mounted) {
-                  setState(() {
-                    _isMapInitialized = true;
-                  });
+                  setState(() => _isMapInitialized = true);
                   _getCurrentLocation();
                   _startLocationUpdates();
                 }
               },
               onPositionChanged: (MapCamera position, bool hasGesture) {
-                if (hasGesture) {
-                  setState(() {
-                    _isCenteredOnUser = false;
-                  });
-                }
+                if (hasGesture) setState(() => _isCenteredOnUser = false);
               },
             ),
             children: [
               TileLayer(
                 tileProvider: CancellableNetworkTileProvider(),
                 urlTemplate: _getTileLayerUrl(),
-                tileSize:256,
-                keepBuffer:2,
+                tileSize: 256,
+                keepBuffer: 2,
                 userAgentPackageName: 'com.example.app',
               ),
-              
-              const SafeArea(
-                child: MapCompass.cupertino(
-                  hideIfRotatedNorth: false,
-                ),
-              ),
+              const SafeArea(child: MapCompass.cupertino(hideIfRotatedNorth: false)),
               if (_currentPosition != null)
                 MarkerLayer(
-                  markers: [
-                    Marker(
-                      width: 24,
-                      height: 24,
-                      point: _currentPosition!,
-                      child: const UserLocationMarker(),
-                    ),
-                  ],
+                  markers: [Marker(width: 24, height: 24, point: _currentPosition!, child: const UserLocationMarker())],
                 ),
               const RichAttributionWidget(
-                attributions: [
-                  TextSourceAttribution(
-                    'OpenStreetMap contributors',
-                  )
-                ],
+                attributions: [TextSourceAttribution('OpenStreetMap contributors'), ],
               ),
             ],
           ),
@@ -189,11 +150,8 @@ class _MapPageState extends State<MapPage> {
               ),
               onPressed: () {
                 if (_currentPosition != null) {
-                  setState(() {
-                    _isCenteredOnUser = true;
-                  });
-                  _mapController.move(
-                      _currentPosition!, 16); // Zoom level 16 for closer view
+                  setState(() => _isCenteredOnUser = true);
+                  _mapController.move(_currentPosition!, 16);
                 }
               },
             ),

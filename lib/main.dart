@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:the_hunting_game/screens/intro_screen.dart';
 import 'package:the_hunting_game/screens/main_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 Future<bool> isFirstTimeOpen() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -13,7 +15,12 @@ Future<bool> isFirstTimeOpen() async {
 }
 
 
-void main() async {
+Future <void> main() async {
+  await dotenv.load(fileName: '.env');
+  await Supabase.initialize(
+    url: dotenv.env['SUPABASE_URL']!,
+    anonKey: dotenv.env['SUPABASE_ANON_KEY']!,
+  );
   WidgetsFlutterBinding.ensureInitialized();
   bool firstTime = await isFirstTimeOpen();
   runApp(MyApp(firstTime));

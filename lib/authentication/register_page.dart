@@ -5,6 +5,7 @@ import 'package:the_hunting_game/components/square_tile.dart';
 import 'package:the_hunting_game/components/text_field.dart';
 import 'package:the_hunting_game/main.dart';
 import 'package:the_hunting_game/screens/main_page.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class RegisterPage extends StatelessWidget {
   RegisterPage({super.key});
@@ -13,6 +14,8 @@ class RegisterPage extends StatelessWidget {
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
   final passwordRepeatController = TextEditingController();
+  //initialize supabase client
+  final supabase = Supabase.instance.client;
 
   @override
   Widget build(BuildContext context) {
@@ -99,14 +102,26 @@ class RegisterPage extends StatelessWidget {
 
               const SizedBox(height: 25),
               //google + apple sign in buttons
-              const Row(
+              Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   //google button
-                  SquareTile(imagePath: 'lib/images/google_logo.png'),
-                  SizedBox(width: 25),
+                  const SquareTile(imagePath: 'lib/images/google_logo.png'),
+                  const SizedBox(width: 25),
                   //apple button
-                  SquareTile(imagePath: 'lib/images/apple_logo.png'),
+                  const SquareTile(imagePath: 'lib/images/apple_logo.png'),
+                  const SizedBox(width: 25),
+                  //github button
+                  GestureDetector(
+                    child: const SquareTile(
+                        imagePath: 'lib/images/github_logo.png'),
+                    onTap: () async {
+                      final sm = ScaffoldMessenger.of(context);
+                      await supabase.auth.signInWithOAuth(OAuthProvider.github);
+                      sm.showSnackBar(const SnackBar(
+                        content: Text('Logged in with GitHub'),
+                      ));
+                    }),
                 ],
               ),
 
