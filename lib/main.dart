@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:the_hunting_game/authentication/login_page.dart';
+import 'package:the_hunting_game/authentication/splashscreen.dart';
 import 'package:the_hunting_game/screens/intro_screen.dart';
 import 'package:the_hunting_game/screens/main_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -16,15 +18,18 @@ Future<bool> isFirstTimeOpen() async {
 
 
 Future <void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   await dotenv.load(fileName: '.env');
   await Supabase.initialize(
     url: dotenv.env['SUPABASE_URL']!,
     anonKey: dotenv.env['SUPABASE_ANON_KEY']!,
   );
-  WidgetsFlutterBinding.ensureInitialized();
   bool firstTime = await isFirstTimeOpen();
   runApp(MyApp(firstTime));
 }
+
+  //initialize supabase client
+  final supabase = Supabase.instance.client;
 
 
 class MyApp extends StatelessWidget {
@@ -47,7 +52,11 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
         colorSchemeSeed: const Color(0xFF05053A),
       ),
-      home: firstTime ? IntroScreen() : HomePage(),
+      home: firstTime ? IntroScreen() : AuthPage(),
+      routes: {
+        '/main_page': (context) => HomePage(),
+        '/login': (context) => LoginPage(),
+      }
     );
   }
 }
