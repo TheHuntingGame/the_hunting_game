@@ -32,6 +32,11 @@ class _AuthPageState extends State<AuthPage> {
   final SupabaseClient supabase = Supabase.instance.client;
   @override
   Widget build(BuildContext context) {
-    return _user == null ? LoginPage() : HomePage();
+    if (_user == null) {
+      return const LoginPage();
+    } else {
+      final username = _user!.email ?? 'Unknown'; // Extract the username
+      return HomePage(username: username);
+    }
   }
 }

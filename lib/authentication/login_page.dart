@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:the_hunting_game/screens/main_page.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -22,6 +25,7 @@ class _StartPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    dotenv.load();
     return Scaffold(
       body: Center(
         child: SingleChildScrollView(
@@ -69,9 +73,10 @@ class _StartPageState extends State<LoginPage> {
                             password: _passwordController.text.trim());
                       } catch (e) {
                         ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text("Oops! Sign In Failed!"),
-                            backgroundColor: Color.fromARGB(255, 243, 49, 6),
+                          SnackBar(
+                            content: Text("Oops! Sign In Failed: $e"),
+                            backgroundColor:
+                                const Color.fromARGB(255, 243, 49, 6),
                           ),
                         );
                       }
@@ -87,12 +92,27 @@ class _StartPageState extends State<LoginPage> {
                   ElevatedButton(
                     onPressed: () async {
                       try {
-                        await supabase.auth.signUp(
-                            email: _emailController.text.trim(),
-                            password: _passwordController.text.trim());
-                        const SnackBar(
-                          content: Text("Sign Up successful! Have fun!"),
+                        final response = await supabase.auth.signUp(
+                          email: _emailController.text.trim(),
+                          password: _passwordController.text.trim(),
                         );
+
+                        // Check if the sign-up was successful
+                        if (response.user != null) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(
+                                  "User is logged in: ${response.user!.email}"),
+                            ),
+                          );
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => HomePage(
+                                  username: response.user!.email ?? 'Unknown'),
+                            ),
+                          );
+                        }
                       } catch (e) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
@@ -106,6 +126,66 @@ class _StartPageState extends State<LoginPage> {
                       "Sign Up",
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
+                  ),
+
+                  const Row(
+                    children: [
+                      Expanded(child: Divider()),
+                      Padding(
+                        padding: EdgeInsets.all(15.0),
+                        child: Text("OR"),
+                      ),
+                      Expanded(child: Divider()),
+                    ],
+                  ),
+                  OutlinedButton.icon(
+                    onPressed: () async {
+                      final webClientId = dotenv.env['WEB_CLIENT_ID']!;
+                      final iosClientId = dotenv.env['IOS_CLIENT_ID']!;
+
+                      final GoogleSignIn googleSignIn = GoogleSignIn(
+                        clientId: iosClientId,
+                        serverClientId: webClientId,
+                      );
+                      final googleUser = await googleSignIn.signIn();
+                      // Check if the user canceled the sign-in process
+                      if (googleUser == null) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text("Sign in was canceled."),
+                          ),
+                        );
+                        return;
+                      }
+                      final googleAuth = await googleUser.authentication;
+                      final accessToken = googleAuth.accessToken;
+                      final idToken = googleAuth.idToken;
+
+                      if (accessToken == null) {
+                        throw 'No Access Token found.';
+                      }
+                      if (idToken == null) {
+                        throw 'No ID Token found.';
+                      }
+
+                      await supabase.auth.signInWithIdToken(
+                        provider: OAuthProvider.google,
+                        idToken: idToken,
+                        accessToken: accessToken,
+                      );
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              HomePage(username: '$googleSignIn'),
+                        ),
+                      );
+                    },
+                    icon: Image.network(
+                      "https://cdn.freebiesupply.com/logos/large/2x/google-icon-logo-png-transparent.png",
+                      height: 20,
+                    ),
+                    label: const Text("Continue with Google"),
                   ),
                 ],
               ),

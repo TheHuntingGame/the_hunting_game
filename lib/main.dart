@@ -53,10 +53,6 @@ class MyApp extends StatelessWidget {
         colorSchemeSeed: const Color(0xFF05053A),
       ),
       home: firstTime ? IntroScreen() : AuthPage(),
-      routes: {
-        '/main_page': (context) => HomePage(),
-        '/login': (context) => LoginPage(),
-      }
     );
   }
 }

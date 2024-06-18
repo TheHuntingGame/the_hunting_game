@@ -69,5 +69,21 @@
     <!-- Permission options for the `appTrackingTransparency` -->
     <key>NSUserTrackingUsageDescription</key>
     <string>appTrackingTransparency</string>
+	<!-- Put me in the [my_project]/ios/Runner/Info.plist file -->
+	<!-- Google Sign-in Section -->
+	<key>CFBundleURLTypes</key>
+	<array>
+  	<dict>
+    <key>CFBundleTypeRole</key>
+    <string>Editor</string>
+    <key>CFBundleURLSchemes</key>
+    <array>
+      <!-- Copied from GoogleService-Info.plist key REVERSED_CLIENT_ID -->
+      <string>com.googleusercontent.apps.761028821493-m2msvkdd4c8fmnbcme6fc1oi2jvvk2br</string>
+    </array>
+  	</dict>
+	</array>
+	<!-- End of the Google Sign-in Section -->
+
 </dict>
 </plist>
