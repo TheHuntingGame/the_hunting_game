@@ -15,6 +15,7 @@ class _StartPageState extends State<LoginPage> {
   final SupabaseClient supabase = Supabase.instance.client;
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  final _repeatpasswordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   @override
   void dispose() {
@@ -64,6 +65,20 @@ class _StartPageState extends State<LoginPage> {
                     obscureText: true,
                   ),
                   const SizedBox(height: 25.0),
+                  //Repeat Password field
+                  TextFormField(
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Field is required';
+                      }
+                      return null;
+                    },
+                    controller: _repeatpasswordController,
+                    decoration: const InputDecoration(
+                        label: Text("Repeat Password - Only when signing up")),
+                    obscureText: true,
+                  ),
+                  const SizedBox(height: 25.0),
                   //Sign In Button
                   ElevatedButton(
                     onPressed: () async {
@@ -91,35 +106,46 @@ class _StartPageState extends State<LoginPage> {
                   //SignUp Button
                   ElevatedButton(
                     onPressed: () async {
-                      try {
-                        final response = await supabase.auth.signUp(
-                          email: _emailController.text.trim(),
-                          password: _passwordController.text.trim(),
-                        );
-
-                        // Check if the sign-up was successful
-                        if (response.user != null) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text(
-                                  "User is logged in: ${response.user!.email}"),
-                            ),
+                      if (_passwordController.text ==
+                          _passwordController.text) {
+                        try {
+                          final response = await supabase.auth.signUp(
+                            email: _emailController.text.trim(),
+                            password: _passwordController.text.trim(),
                           );
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => HomePage(
-                                  username: response.user!.email ?? 'Unknown'),
+
+                          // Check if the sign-up was successful
+                          if (response.user != null) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(
+                                    "User is logged in: ${response.user!.email}"),
+                              ),
+                            );
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => HomePage(
+                                    username:
+                                        response.user!.email ?? 'Unknown'),
+                              ),
+                            );
+                          }
+                        } catch (e) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text("Oops! Sign Up Failed!"),
+                              backgroundColor: Color.fromARGB(255, 243, 49, 6),
                             ),
                           );
                         }
-                      } catch (e) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text("Oops! Sign Up Failed!"),
-                            backgroundColor: Color.fromARGB(255, 243, 49, 6),
-                          ),
-                        );
+                      } else {
+                        ScaffoldMessenger.of(context)
+                            .showSnackBar(const SnackBar(
+                          content: Text(
+                              "Make sure the password and Repeatpassword are the same."),
+                          backgroundColor: Color.fromARGB(255, 243, 49, 6),
+                        ));
                       }
                     },
                     child: const Text(
@@ -186,6 +212,24 @@ class _StartPageState extends State<LoginPage> {
                       height: 20,
                     ),
                     label: const Text("Continue with Google"),
+                  ),
+
+                  OutlinedButton.icon(
+                    onPressed: () async {
+                      await supabase.auth.signInWithOAuth(OAuthProvider.github);
+
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => HomePage(username: 'hi'),
+                        ),
+                      );
+                    },
+                    icon: Image.network(
+                      "https://cdn.freebiesupply.com/logos/large/2x/github-icon-logo-png-transparent.png",
+                      height: 20,
+                    ),
+                    label: const Text("Continue with Github"),
                   ),
                 ],
               ),

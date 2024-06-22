@@ -83,10 +83,8 @@ class _MapPageState extends State<MapPage> {
     );
   }
 
-  //get tile layer url based on brightness
-  String _getTileLayerUrl() => Theme.of(context).brightness == Brightness.dark
-      ? 'https://basemaps.cartocdn.com/dark_all/{z}/{x}/{y}@2x.png'
-      : 'https://tile.openstreetmap.org/{z}/{x}/{y}.png';
+  //get tile layer url
+  String _getTileLayerUrl() => 'https://tile.openstreetmap.org/{z}/{x}/{y}.png';
 
   //stop location updates
   @override
