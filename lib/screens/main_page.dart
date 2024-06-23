@@ -1,36 +1,31 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
-import 'package:the_hunting_game/authentication/login_page.dart';
 import 'package:the_hunting_game/components/button_func.dart';
 import 'package:the_hunting_game/components/button_nav.dart';
 import 'package:the_hunting_game/screens/game_preparation/lobby.dart';
 import 'package:the_hunting_game/screens/game_preparation/setup.dart';
 
 class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+  final String username;
+
+  const HomePage({super.key, required this.username});
 
   @override
   Widget build(BuildContext context) {
+    // Show the SnackBar when the HomePage is built
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text("User is logged in: $username"),
+        ),
+      );
+    });
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('The Hunting Game'),
         automaticallyImplyLeading: false,
-        actions: [
-          IconTheme(
-            data: const IconThemeData(size: 45), // Adjust the size as desired
-            child: IconButton(
-              icon: const Icon(Icons.account_circle),
-              onPressed: () {
-                Navigator.push(
-                context,
-                //-- TODO -- : implement login system
-                MaterialPageRoute(builder: (context) => LoginPage()),
-                );
-              },
-            ),
-          ),
-        ],
       ),
       body: Center(
         child: Column(
@@ -40,15 +35,18 @@ class HomePage extends StatelessWidget {
               height: 50,
               width: 150,
               child: CustomButtonNav(
-                text: 'Join Game', 
-                destination: GameLobbyRoomJoin()
-                ),
+                text: 'Join Game',
+                destination: GameLobbyRoomJoin(),
+              ),
             ),
             const SizedBox(height: 20),
             SizedBox(
               height: 50,
               width: 150,
-              child: CustomButtonFunc(label: 'Create Game', onPressed: () => createGamePopup(context)),
+              child: CustomButtonFunc(
+                label: 'Create Game',
+                onPressed: () => createGamePopup(context),
+              ),
             ),
           ],
         ),
@@ -56,6 +54,7 @@ class HomePage extends StatelessWidget {
     );
   }
 }
+
 
 void createGamePopup(BuildContext context) async {
   final randomPin = (Random().nextInt(9000) + 1000).toString();
