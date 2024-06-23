@@ -120,14 +120,24 @@ Future<void> signinwithGithub(BuildContext context) async {
       OAuthProvider.github,
       authScreenLaunchMode: LaunchMode.externalApplication,
     );
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(
-        builder: (context) => HomePage(username: 'hi'),
-      ),
-    );
+    await Future.delayed(const Duration(seconds: 5));
+    final session = supabase.auth.currentSession;
+    if (session == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Github sign in was canceled"),
+        ),
+      );
+      return;
+    } else {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => HomePage(username: 'hi'),
+        ),
+      );
+    }
   } catch (error) {
-    print("Sign in with GitHub failed: $error");
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text("Error: $error"),
@@ -136,21 +146,31 @@ Future<void> signinwithGithub(BuildContext context) async {
   }
 }
 
-///SPOTIFY SIGN IN ---- SPOTIFY SIGN IN ----  SPOTIFY SIGN IN ----  SPOTIFY SIGN IN ---- 
+///SPOTIFY SIGN IN ---- SPOTIFY SIGN IN ----  SPOTIFY SIGN IN ----   SPOTIFY SIGN IN ----
 Future<void> signinwithSpotify(BuildContext context) async {
   try {
     await supabase.auth.signInWithOAuth(
       OAuthProvider.spotify,
       authScreenLaunchMode: LaunchMode.externalApplication,
     );
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(
-        builder: (context) => HomePage(username: 'hi'),
-      ),
-    );
+    await Future.delayed(const Duration(seconds: 5));
+    final session = supabase.auth.currentSession;
+    if (session == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Spotify sign in was canceled"),
+        ),
+      );
+      return;
+    } else {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => HomePage(username: 'hi'),
+        ),
+      );
+    }
   } catch (error) {
-    print("Sign in with Spotify failed: $error");
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text("Error: $error"),

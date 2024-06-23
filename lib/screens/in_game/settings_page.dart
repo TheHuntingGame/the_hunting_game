@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:the_hunting_game/authentication/login_page.dart';
 import 'package:the_hunting_game/main.dart';
 
@@ -9,6 +10,7 @@ class SettingsPage extends StatefulWidget {
   State<SettingsPage> createState() => _SettingsPageState();
 }
 
+final User? user = supabase.auth.currentUser;
 class _SettingsPageState extends State<SettingsPage> {
   @override
   Widget build(BuildContext context) {
@@ -19,6 +21,14 @@ class _SettingsPageState extends State<SettingsPage> {
       ),
       body: ListView(
         children: [
+                    Container(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: ListTile(
+              title: Text('$user'),
+              trailing: const Icon(Icons.arrow_forward_ios),
+              onTap: () {},
+            ),
+          ),
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: ListTile(
