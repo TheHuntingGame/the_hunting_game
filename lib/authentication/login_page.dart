@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:the_hunting_game/screens/main_page.dart';
+import 'package:the_hunting_game/authentication/auth_functions.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -26,7 +24,10 @@ class _StartPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    dotenv.load();
+    final brightness = Theme.of(context).brightness;
+    final githubIcon = brightness == Brightness.light
+        ? 'lib/images/github_icon_dark.png'
+        : 'lib/images/github_icon_light.png';
     return Scaffold(
       body: Center(
         child: SingleChildScrollView(
@@ -64,7 +65,6 @@ class _StartPageState extends State<LoginPage> {
                     decoration: const InputDecoration(label: Text("Password")),
                     obscureText: true,
                   ),
-                  const SizedBox(height: 25.0),
                   //Repeat Password field
                   TextFormField(
                     validator: (value) {
@@ -82,19 +82,8 @@ class _StartPageState extends State<LoginPage> {
                   //Sign In Button
                   ElevatedButton(
                     onPressed: () async {
-                      try {
-                        await supabase.auth.signInWithPassword(
-                            email: _emailController.text.trim(),
-                            password: _passwordController.text.trim());
-                      } catch (e) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text("Oops! Sign In Failed: $e"),
-                            backgroundColor:
-                                const Color.fromARGB(255, 243, 49, 6),
-                          ),
-                        );
-                      }
+                      await signinwithPassword(
+                          _emailController, _passwordController, context);
                     },
                     child: const Text(
                       "Sign In",
@@ -106,47 +95,11 @@ class _StartPageState extends State<LoginPage> {
                   //SignUp Button
                   ElevatedButton(
                     onPressed: () async {
-                      if (_passwordController.text ==
-                          _passwordController.text) {
-                        try {
-                          final response = await supabase.auth.signUp(
-                            email: _emailController.text.trim(),
-                            password: _passwordController.text.trim(),
-                          );
-
-                          // Check if the sign-up was successful
-                          if (response.user != null) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text(
-                                    "User is logged in: ${response.user!.email}"),
-                              ),
-                            );
-                            Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => HomePage(
-                                    username:
-                                        response.user!.email ?? 'Unknown'),
-                              ),
-                            );
-                          }
-                        } catch (e) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text("Oops! Sign Up Failed!"),
-                              backgroundColor: Color.fromARGB(255, 243, 49, 6),
-                            ),
-                          );
-                        }
-                      } else {
-                        ScaffoldMessenger.of(context)
-                            .showSnackBar(const SnackBar(
-                          content: Text(
-                              "Make sure the password and Repeatpassword are the same."),
-                          backgroundColor: Color.fromARGB(255, 243, 49, 6),
-                        ));
-                      }
+                      await signupwithPassword(
+                          _emailController,
+                          _passwordController,
+                          _repeatpasswordController,
+                          context);
                     },
                     child: const Text(
                       "Sign Up",
@@ -166,49 +119,10 @@ class _StartPageState extends State<LoginPage> {
                   ),
                   OutlinedButton.icon(
                     onPressed: () async {
-                      final webClientId = dotenv.env['WEB_CLIENT_ID']!;
-                      final iosClientId = dotenv.env['IOS_CLIENT_ID']!;
-
-                      final GoogleSignIn googleSignIn = GoogleSignIn(
-                        clientId: iosClientId,
-                        serverClientId: webClientId,
-                      );
-                      final googleUser = await googleSignIn.signIn();
-                      // Check if the user canceled the sign-in process
-                      if (googleUser == null) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text("Sign in was canceled."),
-                          ),
-                        );
-                        return;
-                      }
-                      final googleAuth = await googleUser.authentication;
-                      final accessToken = googleAuth.accessToken;
-                      final idToken = googleAuth.idToken;
-
-                      if (accessToken == null) {
-                        throw 'No Access Token found.';
-                      }
-                      if (idToken == null) {
-                        throw 'No ID Token found.';
-                      }
-
-                      await supabase.auth.signInWithIdToken(
-                        provider: OAuthProvider.google,
-                        idToken: idToken,
-                        accessToken: accessToken,
-                      );
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              HomePage(username: '$googleSignIn'),
-                        ),
-                      );
+                      await signinwithGoogle(context);
                     },
-                    icon: Image.network(
-                      "https://cdn.freebiesupply.com/logos/large/2x/google-icon-logo-png-transparent.png",
+                    icon: Image.asset(
+                      'lib/images/google_icon.png',
                       height: 20,
                     ),
                     label: const Text("Continue with Google"),
@@ -216,17 +130,10 @@ class _StartPageState extends State<LoginPage> {
 
                   OutlinedButton.icon(
                     onPressed: () async {
-                      await supabase.auth.signInWithOAuth(OAuthProvider.github);
-
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => HomePage(username: 'hi'),
-                        ),
-                      );
+                      await signinwithGithub(context);
                     },
-                    icon: Image.network(
-                      "https://cdn.freebiesupply.com/logos/large/2x/github-icon-logo-png-transparent.png",
+                    icon: Image.asset(
+                      githubIcon,
                       height: 20,
                     ),
                     label: const Text("Continue with Github"),
