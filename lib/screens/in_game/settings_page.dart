@@ -45,6 +45,7 @@ class _SettingsPageState extends State<SettingsPage> {
               trailing: const Icon(Icons.arrow_forward_ios),
               onTap: () async {
                 await supabase.auth.signOut();
+                if (!context.mounted) return;
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => LoginPage()),

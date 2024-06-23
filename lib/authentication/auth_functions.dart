@@ -12,6 +12,7 @@ Future<void> signinwithPassword(TextEditingController emailController,
     final response = await supabase.auth.signInWithPassword(
         email: emailController.text.trim(),
         password: passwordController.text.trim());
+    if (!context.mounted) return;
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(
@@ -42,6 +43,7 @@ Future<void> signupwithPassword(
         password: passwordController.text.trim(),
       );
       if (response.user != null) {
+        if (!context.mounted) return;
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text("User is logged in: ${response.user!.email}"),
@@ -56,6 +58,7 @@ Future<void> signupwithPassword(
         );
       }
     } catch (e) {
+      if (!context.mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text("Oops! Sign Up Failed!"),
@@ -82,6 +85,7 @@ Future<void> signinwithGoogle(BuildContext context) async {
   );
   final googleUser = await googleSignIn.signIn();
   if (googleUser == null) {
+    if (!context.mounted) return;
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
         content: Text("Google sign in was canceled."),
@@ -105,6 +109,7 @@ Future<void> signinwithGoogle(BuildContext context) async {
     idToken: idToken,
     accessToken: accessToken,
   );
+  if (!context.mounted) return;
   Navigator.pushReplacement(
     context,
     MaterialPageRoute(
@@ -123,6 +128,7 @@ Future<void> signinwithGithub(BuildContext context) async {
     await Future.delayed(const Duration(seconds: 5));
     final session = supabase.auth.currentSession;
     if (session == null) {
+      if (!context.mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text("Github sign in was canceled"),
@@ -130,6 +136,7 @@ Future<void> signinwithGithub(BuildContext context) async {
       );
       return;
     } else {
+      if (!context.mounted) return;
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
@@ -156,6 +163,7 @@ Future<void> signinwithSpotify(BuildContext context) async {
     await Future.delayed(const Duration(seconds: 5));
     final session = supabase.auth.currentSession;
     if (session == null) {
+      if (!context.mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text("Spotify sign in was canceled"),
@@ -163,6 +171,7 @@ Future<void> signinwithSpotify(BuildContext context) async {
       );
       return;
     } else {
+      if (!context.mounted) return;
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(

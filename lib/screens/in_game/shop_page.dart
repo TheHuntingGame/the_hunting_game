@@ -156,9 +156,9 @@ class ShopPage extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(transport.description),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               Text('Price: \$${transport.price}'),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               Text('Valid Duration: ${transport.validDuration}'),
             ],
           ),
@@ -167,14 +167,14 @@ class ShopPage extends StatelessWidget {
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: Text('Cancel'),
+              child: const Text('Cancel'),
             ),
             ElevatedButton(
               onPressed: () {
                 // Handle the buy action
                 Navigator.of(context).pop();
               },
-              child: Text('Buy'),
+              child: const Text('Buy'),
             ),
           ],
         );
