@@ -84,7 +84,7 @@ Future<void> signinwithGoogle(BuildContext context) async {
   if (googleUser == null) {
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
-        content: Text("Sign in was canceled."),
+        content: Text("Google sign in was canceled."),
       ),
     );
     return;

@@ -11,6 +11,7 @@ class SettingsPage extends StatefulWidget {
 }
 
 final User? user = supabase.auth.currentUser;
+
 class _SettingsPageState extends State<SettingsPage> {
   @override
   Widget build(BuildContext context) {
@@ -21,7 +22,7 @@ class _SettingsPageState extends State<SettingsPage> {
       ),
       body: ListView(
         children: [
-                    Container(
+          Container(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: ListTile(
               title: Text('$user'),

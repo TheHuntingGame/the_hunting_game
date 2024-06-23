@@ -12,6 +12,8 @@ class AuthPage extends StatefulWidget {
 
 class _AuthPageState extends State<AuthPage> {
   User? _user;
+  bool _isLoading = true;
+
   @override
   void initState() {
     _getAuth();
@@ -21,6 +23,7 @@ class _AuthPageState extends State<AuthPage> {
   Future<void> _getAuth() async {
     setState(() {
       _user = supabase.auth.currentUser;
+      _isLoading = false;
     });
     supabase.auth.onAuthStateChange.listen((event) {
       setState(() {
@@ -30,9 +33,16 @@ class _AuthPageState extends State<AuthPage> {
   }
 
   final SupabaseClient supabase = Supabase.instance.client;
+
   @override
   Widget build(BuildContext context) {
-    if (_user == null) {
+    if (_isLoading) {
+      return const Scaffold(
+        body: Center(
+          child: CircularProgressIndicator(),
+        ),
+      );
+    } else if (_user == null) {
       return const LoginPage();
     } else {
       final username = _user!.email ?? 'Unknown'; // Extract the username
@@ -40,3 +50,4 @@ class _AuthPageState extends State<AuthPage> {
     }
   }
 }
+
