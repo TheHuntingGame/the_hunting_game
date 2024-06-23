@@ -114,7 +114,6 @@ Future<void> signinwithGoogle(BuildContext context) async {
 }
 
 ///GITHUB SIGN IN ---- GITHUB SIGN IN ---- GITHUB SIGN IN ---- GITHUB SIGN IN ----
-
 Future<void> signinwithGithub(BuildContext context) async {
   try {
     await supabase.auth.signInWithOAuth(
@@ -129,6 +128,29 @@ Future<void> signinwithGithub(BuildContext context) async {
     );
   } catch (error) {
     print("Sign in with GitHub failed: $error");
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text("Error: $error"),
+      ),
+    );
+  }
+}
+
+///SPOTIFY SIGN IN ---- SPOTIFY SIGN IN ----  SPOTIFY SIGN IN ----  SPOTIFY SIGN IN ---- 
+Future<void> signinwithSpotify(BuildContext context) async {
+  try {
+    await supabase.auth.signInWithOAuth(
+      OAuthProvider.spotify,
+      authScreenLaunchMode: LaunchMode.externalApplication,
+    );
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => HomePage(username: 'hi'),
+      ),
+    );
+  } catch (error) {
+    print("Sign in with Spotify failed: $error");
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text("Error: $error"),

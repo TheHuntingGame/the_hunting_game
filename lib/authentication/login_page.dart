@@ -138,6 +138,17 @@ class _StartPageState extends State<LoginPage> {
                     ),
                     label: const Text("Continue with Github"),
                   ),
+
+                  OutlinedButton.icon(
+                    onPressed: () async {
+                      await signinwithSpotify(context);
+                    },
+                    icon: Image.asset(
+                      'lib/images/spotify_icon.png',
+                      height: 20,
+                    ),
+                    label: const Text("Continue with Spotify"),
+                  ),
                 ],
               ),
             ),
