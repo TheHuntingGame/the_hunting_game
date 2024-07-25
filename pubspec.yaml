@@ -40,7 +40,7 @@ dependencies:
   flutter_dotenv: ^5.1.0
   cupertino_icons: ^1.0.8
   flutter_map_cancellable_tile_provider: ^3.0.0
-  supabase_flutter: ^2.5.5
+  supabase_flutter: ^2.5.8
   google_sign_in: ^6.2.1
 
 dev_dependencies:
